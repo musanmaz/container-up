@@ -1,7 +1,7 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  template: httpd-hello-world
+  template: httpd-hello-web
 objects:
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
@@ -17,7 +17,7 @@ objects:
         kind: ImageStreamTag
         name: ${NAME}:latest
     source:
-      contextDir: httpd-hello-world
+      contextDir: httpd-hello-web
       git:
         uri: https://github.com/monodot/container-up
       type: Git
