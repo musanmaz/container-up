@@ -7,19 +7,19 @@ objects:
   kind: BuildConfig
   metadata:
     labels:
-      app: ${NAME}
-      app.kubernetes.io/component: ${NAME}
-      app.kubernetes.io/instance: ${NAME}
-    name: ${NAME}
+      app: httpd-hello-mobile
+      app.kubernetes.io/component: httpd-hello-mobile
+      app.kubernetes.io/instance: httpd-hello-mobile
+    name: httpd-hello-mobile
   spec:
     output:
       to:
         kind: ImageStreamTag
-        name: ${NAME}:latest
+        name: httpd-hello-mobile:latest
     source:
       contextDir: httpd-hello-mobile
       git:
-        uri: https://github.com/monodot/container-up
+        uri: https://github.com/musanmaz/container-up
       type: Git
     strategy:
       dockerStrategy:
@@ -35,49 +35,49 @@ objects:
   kind: ImageStream
   metadata:
     labels:
-      app: ${NAME}
-      app.kubernetes.io/component: ${NAME}
-      app.kubernetes.io/instance: ${NAME}
-    name: ${NAME}
+      app: httpd-hello-mobile
+      app.kubernetes.io/component: httpd-hello-mobile
+      app.kubernetes.io/instance: httpd-hello-mobile
+    name: httpd-hello-mobile
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
     labels:
-      app: ${NAME}
-      app.kubernetes.io/component: ${NAME}
-      app.kubernetes.io/instance: ${NAME}
-    name: ${NAME}
+      app: httpd-hello-mobile
+      app.kubernetes.io/component: httpd-hello-mobile
+      app.kubernetes.io/instance: httpd-hello-mobile
+    name: httpd-hello-mobile
   spec:
     port:
       targetPort: 8080-tcp
     to:
       kind: Service
-      name: ${NAME}
+      name: httpd-hello-mobile
       weight: 100
     wildcardPolicy: None
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
     labels:
-      app: ${NAME}
-      app.kubernetes.io/component: ${NAME}
-      app.kubernetes.io/instance: ${NAME}
-    name: ${NAME}
+      app: httpd-hello-mobile
+      app.kubernetes.io/component: httpd-hello-mobile
+      app.kubernetes.io/instance: httpd-hello-mobile
+    name: httpd-hello-mobile
   spec:
     replicas: 1
     selector:
-      deploymentconfig: ${NAME}
+      deploymentconfig: httpd-hello-mobile
     strategy:
       type: Rolling
     template:
       metadata:
         labels:
-          deploymentconfig: ${NAME}
+          deploymentconfig: httpd-hello-mobile
       spec:
         containers:
-        - image: ${NAME}
+        - image: httpd-hello-mobile
           imagePullPolicy: Always
-          name: ${NAME}
+          name: httpd-hello-mobile
           ports:
           - containerPort: 8080
             protocol: TCP
@@ -89,19 +89,19 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - ${NAME}
+        - httpd-hello-mobile
         from:
           kind: ImageStreamTag
-          name: ${NAME}:latest
+          name: httpd-hello-mobile:latest
       type: ImageChange
 - apiVersion: v1
   kind: Service
   metadata:
     labels:
-      app: ${NAME}
-      app.kubernetes.io/component: ${NAME}
-      app.kubernetes.io/instance: ${NAME}
-    name: ${NAME}
+      app: httpd-hello-mobile
+      app.kubernetes.io/component: httpd-hello-mobile
+      app.kubernetes.io/instance: httpd-hello-mobile
+    name: httpd-hello-mobile
   spec:
     ports:
     - name: 8080-tcp
@@ -113,7 +113,7 @@ objects:
       protocol: TCP
       targetPort: 8443
     selector:
-      deploymentconfig: ${NAME}
+      deploymentconfig: httpd-hello-mobile
     type: ClusterIP
 parameters:
 - description: Name that will be given to all the resources
